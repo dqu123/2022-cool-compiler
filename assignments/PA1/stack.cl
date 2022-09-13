@@ -21,7 +21,7 @@ class Interpreter inherits IO {
    cur: Node <- new Node;
    prev: Node;
 
-   c_DEBUG: Bool <- false;
+   c_DEBUG_INTERPRETER: Bool <- false;
    c_STOP_TOKEN: String <- "x";
    c_DISPLAY_TOKEN: String <- "d";
    c_EVALUATE_TOKEN: String <- "e";
@@ -34,7 +34,7 @@ class Interpreter inherits IO {
          out_string("> ");
          curLine <- in_string();
 
-         if c_DEBUG then {
+         if c_DEBUG_INTERPRETER then {
             out_string("curLine: ");
             out_string(curLine.concat("\n\n"));
          } else
@@ -61,16 +61,10 @@ class Interpreter inherits IO {
 
 -- Abstract class: 
 class Node inherits IO {
-   abstractErrorStr: String <- "Node abstract method not implemented";
    prev: Node;
+   c_DEBUG_NODE: Bool <- false;
 
-   printSelf(): Object { 
-      { 
-         0;
-         -- out_string(abstractErrorStr);
-         -- abort();
-      }
-   };
+   printSelf(): Object { 0 };
 
    printAll(): Object {
       {
@@ -114,7 +108,11 @@ class IntNode inherits Node {
 
    printSelf(): Object {
       {
-         -- out_string("IntNode out_string: ");
+         if c_DEBUG_NODE then
+            out_string("IntNode out_string: ")
+         else
+            0
+         fi;
          out_string(a2i.i2a(value).concat("\n"));
       }
    };
@@ -140,8 +138,14 @@ class PlusNode inherits Node {
    };
 
    printSelf(): Object {
-      -- out_string("PlusNode out_string: +\n")
-      out_string("+\n")
+      {
+         if c_DEBUG_NODE then
+            out_string("PlusNode out_string: ")
+         else
+            0
+         fi;
+         out_string("+\n");
+      }
    };
 
    first: Int;
@@ -164,8 +168,14 @@ class SwapNode inherits Node {
    };
 
    printSelf(): Object {
-      -- out_string("SwapNode out_string: s\n")
-      out_string("s\n")
+      {
+         if c_DEBUG_NODE then
+            out_string("SwapNode out_string: ")
+         else
+            0
+         fi;
+         out_string("s\n");
+      }
    };
 
    first: Node;
